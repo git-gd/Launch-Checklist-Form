@@ -23,18 +23,18 @@ function init(){
   }
   
   function invalidNum(num){
-      //return num.value.match(/^[0-9]+$/) || num.value === "";
       return isNaN(num.value) || num.value.trim().length < 1;
   }
 
    function validateShuttle(){
       faultyItems.style.visibility = "visible";
-      if (fuelLevel.value >= 10000 && cargoMass.value <= 10000 && !invalidNum(cargoMass) && !invalidNum(fuelLevel)) {
-          launchStatus.innerHTML = "Shuttle is ready for launch";
-          launchStatus.style.color = "green";
+      if (fuelLevel.value < 10000 || cargoMass.value > 10000 || invalidNum(cargoMass) || invalidNum(fuelLevel) || invalidName(pilot) || invalidName(copilot)) {
+         launchStatus.innerHTML = "Shuttle not ready for launch";
+         launchStatus.style.color = "red";
       } else {
-          launchStatus.innerHTML = "Shuttle not ready for launch";
-          launchStatus.style.color = "red";
+         launchStatus.innerHTML = "Shuttle is ready for launch";
+         launchStatus.style.color = "green";
+
       }
   };
 
@@ -44,6 +44,7 @@ function init(){
       } else {
          pilotStatus.innerHTML = `Pilot ${pilot.value} is ready for launch`;
       }
+      validateShuttle();
    });
 
    copilot.addEventListener("change", function(){
@@ -52,6 +53,7 @@ function init(){
       } else {
          copilotStatus.innerHTML = `Co-Pilot ${copilot.value} is ready for launch`;
       }
+      validateShuttle();
    });
 
    fuelLevel.addEventListener("change", function(){
