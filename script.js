@@ -19,15 +19,17 @@ function init(){
    let index = 0;
 
    function invalidName(name){
-      return !name.value || !name.value.match(/^[A-Za-z]+$/);
+      return name.value.trim().length < 1 || !name.value.match(/^[A-Za-z]+$/);
   }
   
   function invalidNum(num){
-      return isNaN(num.value) || !num.value;
+      //return num.value.match(/^[0-9]+$/) || num.value === "";
+      return isNaN(num.value) || num.value.trim().length < 1;
   }
 
    function validateShuttle(){
-      if (fuelLevel.value >= 10000 && cargoMass.value <= 10000) {
+      faultyItems.style.visibility = "visible";
+      if (fuelLevel.value >= 10000 && cargoMass.value <= 10000 && !invalidNum(cargoMass) && !invalidNum(fuelLevel)) {
           launchStatus.innerHTML = "Shuttle is ready for launch";
           launchStatus.style.color = "green";
       } else {
@@ -38,7 +40,7 @@ function init(){
 
    pilot.addEventListener("change", function(){
       if (invalidName(pilot)){
-         pilotStatus.innerHTML = `${pilot.value} is not a valid name`;
+         pilotStatus.innerHTML = `Pilot "${pilot.value}" is not a valid name`;
       } else {
          pilotStatus.innerHTML = `Pilot ${pilot.value} is ready for launch`;
       }
@@ -46,28 +48,30 @@ function init(){
 
    copilot.addEventListener("change", function(){
       if (invalidName(copilot)){
-         copilotStatus.innerHTML = `${copilot.value} is not a valid name`;
+         copilotStatus.innerHTML = `Co-Pilot "${copilot.value}" is not a valid name`;
       } else {
          copilotStatus.innerHTML = `Co-Pilot ${copilot.value} is ready for launch`;
       }
    });
 
    fuelLevel.addEventListener("change", function(){
-      if (fuelLevel.value < 10000) {
+      if (invalidNum(fuelLevel)) {
+         fuelStatus.innerHTML = "The fuel level is not valid";
+      } else if (fuelLevel.value < 10000) {
          fuelStatus.innerHTML = "There is not enough fuel for the journey";
-         faultyItems.style.visibility = "visible";
       } else {
-         fuelStatus.innerHTML = "Fuel level high enough for launch";
+         fuelStatus.innerHTML = "Fuel level is high enough for launch";
       }
       validateShuttle();
    });
 
    cargoMass.addEventListener("change", function(){
-      if (cargoMass.value > 10000) {
+      if (invalidNum(cargoMass)){
+         cargoStatus.innerHTML = "The cargo mass is not valid";
+      } else if (cargoMass.value > 10000) {
          cargoStatus.innerHTML = "There is too much mass for the shuttle to take off";
-         faultyItems.style.visibility = "visible";
       } else {
-         cargoStatus.innerHTML = "Cargo mass low enough for launch";
+         cargoStatus.innerHTML = "Cargo mass is low enough for launch";
       }
       validateShuttle();
    });
@@ -125,6 +129,13 @@ function init(){
    
       });
    });
+
+   let event = new Event("change");
+
+   pilot.dispatchEvent(event);
+   copilot.dispatchEvent(event);
+   fuelLevel.dispatchEvent(event);
+   cargoMass.dispatchEvent(event);
 }
 
 window.onload = init;
