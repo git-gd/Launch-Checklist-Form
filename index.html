@@ -46,6 +46,12 @@
             const fuelLevel = document.querySelector("input[name=fuelLevel]");
             const cargoMass = document.querySelector("input[name=cargoMass]");
 
+            const faultyItems   = document.getElementById("faultyItems");
+            const pilotStatus   = document.getElementById("pilotStatus");
+            const copilotStatus = document.getElementById("copilotStatus");
+            const fuelStatus    = document.getElementById("fuelStatus");
+            const cargoStatus   = document.getElementById("cargoStatus");
+
             form.addEventListener("submit", function(event){
                 if (!pilot.value){
                     alert("The pilot's name is required.");
@@ -59,6 +65,13 @@
                 } else if (isNaN(cargoMass.value) || !cargoMass.value){
                     alert("Cargo Mass must be a valid number.")
                     event.preventDefault();
+                } else {
+                    if (fuelLevel.value < 10000) {
+                        fuelStatus.innerHTML = "There is not enough fuel for the journey";
+                        faultyItems.style.visibility = "visible";
+                    } else {
+                        fuelStatus.innerHTML = "Fuel level high enough for launch";
+                    }
                 }
             });
         </script>
