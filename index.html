@@ -53,6 +53,14 @@
             const cargoStatus   = document.getElementById("cargoStatus");
             const launchStatus  = document.getElementById("launchStatus");
 
+            function invalidName(name){
+                return !name.value || !name.value.match(/^[A-Za-z]+$/);
+            }
+
+            function invalidNum(num){
+                return isNaN(num.value) || !num.value;
+            }
+
             function validateShuttle(){
                 if (fuelStatus.innerHTML === "Fuel level high enough for launch" &&
                     cargoStatus.innerHTML === "Cargo mass low enough for launch") {
@@ -65,13 +73,19 @@
             };
 
             pilot.addEventListener("change", function(){
-                pilotStatus.innerHTML = `Pilot ${pilot.value} is ready for launch`;
-                pilot.validity.valid = true;
+                if (invalidName(pilot)){
+                    pilotStatus.innerHTML = `${pilot.value} is not a valid name`;
+                } else {
+                    pilotStatus.innerHTML = `Pilot ${pilot.value} is ready for launch`;
+                }
             });
 
             copilot.addEventListener("change", function(){
-                copilotStatus.innerHTML = `Co-Pilot ${copilot.value} is ready for launch`;
-                copilot.validity.valid = true;
+                if (invalidName(copilot)){
+                    copilotStatus.innerHTML = `${copilot.value} is not a valid name`;
+                } else {
+                    copilotStatus.innerHTML = `Co-Pilot ${copilot.value} is ready for launch`;
+                }
             });
 
             fuelLevel.addEventListener("change", function(){
@@ -95,16 +109,16 @@
             });
 
             form.addEventListener("submit", function(event){
-                if (!pilot.value || !pilot.value.match(/^[A-Za-z]+$/)){
+                if (invalidName(pilot)){
                     alert("A valid pilot name is required.");
                     event.preventDefault();
-                } else if (!copilot.value || !copilot.value.match(/^[A-Za-z]+$/)){
+                } else if (invalidName(copilot)){
                     alert("A valid co-pilot name is required.");
                     event.preventDefault();
-                } else if (isNaN(fuelLevel.value) || !fuelLevel.value){
+                } else if (invalidNum(fuelLevel)){
                     alert("Fuel Level must be a valid number.");
                     event.preventDefault();
-                } else if (isNaN(cargoMass.value) || !cargoMass.value){
+                } else if (invalidNum(cargoMass)){
                     alert("Cargo Mass must be a valid number.")
                     event.preventDefault();
                 } else {
