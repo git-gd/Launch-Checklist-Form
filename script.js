@@ -16,6 +16,9 @@ function init(){
 
    const missionTarget = document.getElementById("missionTarget");
 
+   const minFuel = 10000;
+   const maxMass = 10000;
+
    let index = 0; // JSON index used to track our current JSON array position
 
    function invalidName(name){
@@ -28,7 +31,7 @@ function init(){
 
    function validateShuttle(){
       faultyItems.style.visibility = "visible";
-      if (fuelLevel.value < 10000 || cargoMass.value > 10000 || invalidNum(cargoMass) || invalidNum(fuelLevel) || invalidName(pilot) || invalidName(copilot)) {
+      if (fuelLevel.value < minFuel || cargoMass.value > maxMass || invalidNum(cargoMass) || invalidNum(fuelLevel) || invalidName(pilot) || invalidName(copilot)) {
          launchStatus.innerHTML = "Shuttle not ready for launch";
          launchStatus.style.color = "red";
       } else {
@@ -59,7 +62,7 @@ function init(){
    fuelLevel.addEventListener("change", function(){
       if (invalidNum(fuelLevel)) {
          fuelStatus.innerHTML = "❌ The fuel level is not valid";
-      } else if (fuelLevel.value < 10000) {
+      } else if (fuelLevel.value < minFuel) {
          fuelStatus.innerHTML = "❌ There is not enough fuel for the journey";
       } else {
          fuelStatus.innerHTML = "✔️ Fuel level is high enough for launch";
@@ -70,7 +73,7 @@ function init(){
    cargoMass.addEventListener("change", function(){
       if (invalidNum(cargoMass)){
          cargoStatus.innerHTML = "❌ The cargo mass is not valid";
-      } else if (cargoMass.value > 10000) {
+      } else if (cargoMass.value > maxMass) {
          cargoStatus.innerHTML = "❌ There is too much mass for the shuttle to take off";
       } else {
          cargoStatus.innerHTML = "✔️ Cargo mass is low enough for launch";
@@ -85,11 +88,11 @@ function init(){
       } else if (invalidName(copilot)){
          alert("A valid co-pilot name is required.");
          event.preventDefault();
-      } else if (invalidNum(fuelLevel)){
+      } else if (invalidNum(fuelLevel) || fuelLevel.value < minFuel){
          alert("Fuel Level must be a valid number.");
          event.preventDefault();
-      } else if (invalidNum(cargoMass)){
-         alert("Cargo Mass must be a valid number.")
+      } else if (invalidNum(cargoMass) || cargoMass.value > maxMass){
+         alert("Cargo Mass must be a valid number.");
          event.preventDefault();
       } else {
          if (launchStatus.style.color !== "green"){
