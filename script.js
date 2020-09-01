@@ -22,7 +22,7 @@ function init(){
    let index = 0; // JSON index used to track our current JSON array position
 
    function invalidName(name){
-      return name.value.trim().length < 1 || !name.value.trim().match(/^[A-Za-z]+$/);
+      return name.value.trim().length < 1 || !name.value.trim().match(/^[A-Za-z ]+$/);
   }
   
   function invalidNum(num){
