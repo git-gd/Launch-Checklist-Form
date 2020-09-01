@@ -131,16 +131,26 @@ function init(){
    
       });
    });
+   
+   // if any field has been set, validate the fields (this will happen if you reload the window)
+   if (pilot.value.length > 0 || copilot.value.length > 0 || fuelLevel.value.length > 0 || cargoMass.value.length > 0 ){
+      let event = new Event("change");
 
-   let event = new Event("change");
-
-   if (pilot.value.trim().length>0) {pilot.dispatchEvent(event)};
-   if (copilot.value.trim().length>0) {copilot.dispatchEvent(event)};
-   if (fuelLevel.value.trim().length>0) {fuelLevel.dispatchEvent(event)};
-   if (cargoMass.value.trim().length>0) {cargoMass.dispatchEvent(event)};
+      pilot.dispatchEvent(event);
+      copilot.dispatchEvent(event);
+      fuelLevel.dispatchEvent(event);
+      cargoMass.dispatchEvent(event);
+   } else {
+      // validating on change rather than submit means the default initialized text doesn't make sense
+      pilotStatus.innerHTML = `Pilot "${pilot.value}" is not a valid name`;
+      copilotStatus.innerHTML = `Co-Pilot "${copilot.value}" is not a valid name`;
+      fuelStatus.innerHTML = "The fuel level is not valid";
+      cargoStatus.innerHTML = "The cargo mass is not valid";
+   }
 }
 
 window.onload = init;
+
 /* This block of code shows how to format the HTML once you fetch some planetary JSON!
 <h2>Mission Destination</h2>
 <ol>
