@@ -105,6 +105,8 @@ function init(){
       response.json().then(function(json){
          const planets = json;
 
+         index = Math.floor(Math.random() * planets.length); // set our initial index value to be random
+
          missionTarget.innerHTML = `
          <ol id="planetOL">
          <li>Name: ${planets[index].name}</li>
@@ -117,7 +119,7 @@ function init(){
          `;
 
          // BONUS: Choose a random planet!
-         // Slight variation - click the planet image to cycle through the list of planets
+         // Slight variation - you can also click the planet image to cycle through the list of planets
 
          // I noticed after attaching an event listener to the <img> tag that it would break if the <img> tag was overwritten
          // The workaround was to separate the <ol> tag (which gets rewritten) and set the <img> tag src attribute
