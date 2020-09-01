@@ -16,10 +16,10 @@ function init(){
 
    const missionTarget = document.getElementById("missionTarget");
 
-   let index = 0;
+   let index = 0; // JSON index used to track our current JSON array position
 
    function invalidName(name){
-      return name.value.trim().length < 1 || !name.value.match(/^[A-Za-z]+$/);
+      return name.value.trim().length < 1 || !name.value.trim().match(/^[A-Za-z]+$/);
   }
   
   function invalidNum(num){
@@ -40,40 +40,40 @@ function init(){
 
    pilot.addEventListener("change", function(){
       if (invalidName(pilot)){
-         pilotStatus.innerHTML = `Pilot "${pilot.value}" is not a valid name`;
+         pilotStatus.innerHTML = `❌ Pilot "${pilot.value}" is not a valid name`;
       } else {
-         pilotStatus.innerHTML = `Pilot ${pilot.value} is ready for launch`;
+         pilotStatus.innerHTML = `✔️ Pilot ${pilot.value} is ready for launch`;
       }
       validateShuttle();
    });
 
    copilot.addEventListener("change", function(){
       if (invalidName(copilot)){
-         copilotStatus.innerHTML = `Co-Pilot "${copilot.value}" is not a valid name`;
+         copilotStatus.innerHTML = `❌ Co-Pilot "${copilot.value}" is not a valid name`;
       } else {
-         copilotStatus.innerHTML = `Co-Pilot ${copilot.value} is ready for launch`;
+         copilotStatus.innerHTML = `✔️ Co-Pilot ${copilot.value} is ready for launch`;
       }
       validateShuttle();
    });
 
    fuelLevel.addEventListener("change", function(){
       if (invalidNum(fuelLevel)) {
-         fuelStatus.innerHTML = "The fuel level is not valid";
+         fuelStatus.innerHTML = "❌ The fuel level is not valid";
       } else if (fuelLevel.value < 10000) {
-         fuelStatus.innerHTML = "There is not enough fuel for the journey";
+         fuelStatus.innerHTML = "❌ There is not enough fuel for the journey";
       } else {
-         fuelStatus.innerHTML = "Fuel level is high enough for launch";
+         fuelStatus.innerHTML = "✔️ Fuel level is high enough for launch";
       }
       validateShuttle();
    });
 
    cargoMass.addEventListener("change", function(){
       if (invalidNum(cargoMass)){
-         cargoStatus.innerHTML = "The cargo mass is not valid";
+         cargoStatus.innerHTML = "❌ The cargo mass is not valid";
       } else if (cargoMass.value > 10000) {
-         cargoStatus.innerHTML = "There is too much mass for the shuttle to take off";
+         cargoStatus.innerHTML = "❌ There is too much mass for the shuttle to take off";
       } else {
-         cargoStatus.innerHTML = "Cargo mass is low enough for launch";
+         cargoStatus.innerHTML = "✔️ Cargo mass is low enough for launch";
       }
       validateShuttle();
    });
@@ -113,6 +113,12 @@ function init(){
          <img src=${planets[index].image} id="planetImg"></img>
          `;
 
+         // BONUS: Choose a random planet!
+         // Slight variation - click the planet image to cycle through the list of planets
+
+         // I noticed after attaching an event listener to the <img> tag that it would break if the <img> tag was overwritten
+         // The workaround was to separate the <ol> tag (which gets rewritten) and set the <img> tag src attribute
+
          const planetOL  = document.getElementById("planetOL");
          const planetImg = document.getElementById("planetImg");
 
@@ -132,7 +138,7 @@ function init(){
       });
    });
    
-   // if any field has been set, validate the fields (this will happen if you reload the window)
+   // if any field has been set, validate all of the fields (this will happen if you reload the window)
    if (pilot.value.length > 0 || copilot.value.length > 0 || fuelLevel.value.length > 0 || cargoMass.value.length > 0 ){
       let event = new Event("change");
 
@@ -142,10 +148,10 @@ function init(){
       cargoMass.dispatchEvent(event);
    } else {
       // validating on change rather than submit means the default initialized text doesn't make sense
-      pilotStatus.innerHTML = `Pilot "${pilot.value}" is not a valid name`;
-      copilotStatus.innerHTML = `Co-Pilot "${copilot.value}" is not a valid name`;
-      fuelStatus.innerHTML = "The fuel level is not valid";
-      cargoStatus.innerHTML = "The cargo mass is not valid";
+      pilotStatus.innerHTML = `❌ Pilot "${pilot.value}" is not a valid name`;
+      copilotStatus.innerHTML = `❌ Co-Pilot "${copilot.value}" is not a valid name`;
+      fuelStatus.innerHTML = "❌ The fuel level is not valid";
+      cargoStatus.innerHTML = "❌ The cargo mass is not valid";
    }
 }
 
