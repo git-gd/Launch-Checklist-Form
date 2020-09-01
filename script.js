@@ -134,10 +134,10 @@ function init(){
 
    let event = new Event("change");
 
-   pilot.dispatchEvent(event);
-   copilot.dispatchEvent(event);
-   fuelLevel.dispatchEvent(event);
-   cargoMass.dispatchEvent(event);
+   if (pilot.value.trim().length>0) {pilot.dispatchEvent(event)};
+   if (copilot.value.trim().length>0) {copilot.dispatchEvent(event)};
+   if (fuelLevel.value.trim().length>0) {fuelLevel.dispatchEvent(event)};
+   if (cargoMass.value.trim().length>0) {cargoMass.dispatchEvent(event)};
 }
 
 window.onload = init;
