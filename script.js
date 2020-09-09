@@ -95,9 +95,9 @@ function init(){
          alert("Cargo Mass must be a valid number.");
          event.preventDefault();
       } else {
-         if (launchStatus.style.color !== "green"){
-            event.preventDefault();
-         }
+      //    if (launchStatus.style.color !== "green"){
+         event.preventDefault();
+      //    }
       }
    });
 
